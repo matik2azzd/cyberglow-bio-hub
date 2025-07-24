@@ -51,10 +51,11 @@ const BackgroundVideo = ({
             muted
             loop
             playsInline
+            preload="auto"
             className={`w-full h-full object-cover transition-opacity duration-1000 ${
               isLoaded ? 'opacity-100' : 'opacity-0'
             }`}
-            style={{ filter: 'brightness(0.3) contrast(1.2)' }}
+            style={{ filter: 'brightness(0.4) contrast(1.3) saturate(1.2)' }}
           >
             <source src={src} type="video/mp4" />
           </video>

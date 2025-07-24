@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Gamepad2, Zap, Diamond, Coins } from 'lucide-react';
+import PlinkoGame from './games/PlinkoGame';
+import SlotGame from './games/SlotGame';
+import DiamondMineGame from './games/DiamondMineGame';
 
 interface Game {
   id: string;
@@ -19,21 +22,21 @@ const GamesArcade = () => {
     {
       id: 'plinko',
       name: 'PLINKO.exe',
-      description: 'Drop the ball and watch physics do the magic',
+      description: 'Drop the ball through neural pegs for cyber rewards',
       icon: Zap,
       status: 'available'
     },
     {
       id: 'slots',
       name: 'NEON_SLOTS',
-      description: 'Spin the cyber reels for digital glory',
+      description: 'Spin the quantum reels in the digital casino',
       icon: Coins,
       status: 'available'
     },
     {
       id: 'diamond',
       name: 'DIAMOND_MINE',
-      description: 'Click to find diamonds, avoid the bombs',
+      description: 'Navigate the minefield to collect precious data gems',
       icon: Diamond,
       status: 'available'
     }
@@ -41,8 +44,10 @@ const GamesArcade = () => {
 
   const launchGame = (gameId: string) => {
     setSelectedGame(gameId);
-    // In a real implementation, this would launch the game
-    console.log(`Launching game: ${gameId}`);
+  };
+
+  const closeGame = () => {
+    setSelectedGame(null);
   };
 
   return (
@@ -57,11 +62,11 @@ const GamesArcade = () => {
       </Button>
 
       {/* Arcade Panel */}
-      {isArcadeOpen && (
+      {isArcadeOpen && !selectedGame && (
         <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 flex items-center justify-center p-4">
-          <Card className="cyberpunk-card w-full max-w-2xl p-6 animate-entrance">
+          <Card className="cyberpunk-card w-full max-w-4xl p-6 animate-entrance">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-cyber font-bold neon-text">
+              <h2 className="text-3xl font-cyber font-bold neon-text">
                 🎮 CYBER_ARCADE
               </h2>
               <Button
@@ -74,68 +79,59 @@ const GamesArcade = () => {
               </Button>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
               {games.map((game) => (
                 <div
                   key={game.id}
-                  className="game-card relative overflow-hidden"
+                  className="game-card group relative overflow-hidden cursor-pointer"
                   onClick={() => game.status === 'available' && launchGame(game.id)}
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <game.icon className="w-8 h-8 text-primary" />
-                    <h3 className="font-cyber font-semibold text-lg">
+                  <div className="flex items-center gap-3 mb-4">
+                    <game.icon className="w-10 h-10 text-primary group-hover:text-primary-glow transition-colors" />
+                    <h3 className="font-cyber font-semibold text-xl">
                       {game.name}
                     </h3>
                   </div>
                   
-                  <p className="text-sm text-muted-foreground font-mono mb-4">
+                  <p className="text-sm text-muted-foreground font-mono mb-6 leading-relaxed">
                     {game.description}
                   </p>
                   
                   <div className="flex items-center justify-between">
-                    <span className={`text-xs font-mono px-2 py-1 rounded ${
+                    <span className={`text-xs font-mono px-3 py-1 rounded-full ${
                       game.status === 'available' 
-                        ? 'bg-green-500/20 text-green-400' 
-                        : 'bg-yellow-500/20 text-yellow-400'
+                        ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                        : 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
                     }`}>
-                      {game.status === 'available' ? 'READY' : 'COMING SOON'}
+                      {game.status === 'available' ? '🟢 ONLINE' : '🟡 OFFLINE'}
                     </span>
                     
                     {game.status === 'available' && (
-                      <Button size="sm" variant="outline" className="text-xs">
-                        LAUNCH
+                      <Button size="sm" variant="cyber" className="text-xs px-4">
+                        EXECUTE
                       </Button>
                     )}
                   </div>
                   
                   {/* Hover effect overlay */}
-                  <div className="absolute inset-0 bg-primary/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
                 </div>
               ))}
             </div>
 
-            {/* Game Demo Area */}
-            {selectedGame && (
-              <div className="border-t border-border pt-6">
-                <div className="bg-surface-darker rounded-lg p-6 text-center">
-                  <h3 className="text-lg font-cyber mb-4 text-primary">
-                    GAME_LOADING...
-                  </h3>
-                  <div className="text-sm font-mono text-muted-foreground mb-4">
-                    Selected: {games.find(g => g.id === selectedGame)?.name}
-                  </div>
-                  <div className="flex justify-center items-center space-x-2">
-                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" />
-                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                    <div className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                  </div>
-                  <p className="text-xs font-mono text-muted-foreground mt-4">
-                    Mini-games will be fully implemented in the next update
-                  </p>
-                </div>
-              </div>
-            )}
+            <div className="text-center text-xs font-mono text-muted-foreground border-t border-border pt-4">
+              💾 All games run locally with quantum encryption • No data transmitted to neural networks
+            </div>
           </Card>
+        </div>
+      )}
+
+      {/* Individual Game Windows */}
+      {selectedGame && (
+        <div className="fixed inset-0 bg-background/90 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          {selectedGame === 'plinko' && <PlinkoGame onClose={closeGame} />}
+          {selectedGame === 'slots' && <SlotGame onClose={closeGame} />}
+          {selectedGame === 'diamond' && <DiamondMineGame onClose={closeGame} />}
         </div>
       )}
     </>
