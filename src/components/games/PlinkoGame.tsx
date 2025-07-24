@@ -13,14 +13,28 @@ const PlinkoGame = ({ onClose }: { onClose: () => void }) => {
     setIsDropping(true);
     setBalls(prev => prev - 1);
     
-    // Simulate ball drop with random scoring
+    // Enhanced ball drop simulation with realistic physics
     setTimeout(() => {
-      const multipliers = [10, 50, 100, 500, 100, 50, 10];
-      const randomSlot = Math.floor(Math.random() * multipliers.length);
-      const points = multipliers[randomSlot];
+      const multipliers = [10, 50, 100, 500, 1000, 100, 50, 10];
+      const weights = [20, 15, 12, 8, 2, 8, 12, 15, 20]; // Higher chance for lower values
+      
+      // Weighted random selection
+      const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+      let randomNum = Math.random() * totalWeight;
+      let selectedIndex = 0;
+      
+      for (let i = 0; i < weights.length; i++) {
+        randomNum -= weights[i];
+        if (randomNum <= 0) {
+          selectedIndex = i;
+          break;
+        }
+      }
+      
+      const points = multipliers[selectedIndex];
       setScore(prev => prev + points);
       setIsDropping(false);
-    }, 2000);
+    }, 2500); // Slightly longer for better suspense
   };
 
   const resetGame = () => {
@@ -45,19 +59,21 @@ const PlinkoGame = ({ onClose }: { onClose: () => void }) => {
         </div>
         
         {/* Pegs representation */}
-        <div className="grid grid-cols-7 gap-2 h-32">
-          {[...Array(35)].map((_, i) => (
-            <div key={i} className="w-2 h-2 bg-primary rounded-full opacity-30" />
+        <div className="grid grid-cols-8 gap-2 h-32">
+          {[...Array(40)].map((_, i) => (
+            <div key={i} className="w-2 h-2 bg-primary rounded-full opacity-30 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
           ))}
         </div>
         
         {/* Score multipliers at bottom */}
-        <div className="grid grid-cols-7 gap-1 mt-4">
-          {[10, 50, 100, 500, 100, 50, 10].map((multiplier, i) => (
+        <div className="grid grid-cols-8 gap-1 mt-4">
+          {[10, 50, 100, 500, 1000, 100, 50, 10].map((multiplier, i) => (
             <div
               key={i}
               className={`text-center text-xs font-mono py-1 rounded ${
-                multiplier === 500 ? 'bg-accent text-accent-foreground' : 'bg-muted text-muted-foreground'
+                multiplier === 1000 ? 'bg-accent text-accent-foreground glow-pink' : 
+                multiplier >= 500 ? 'bg-secondary text-secondary-foreground' : 
+                'bg-muted text-muted-foreground'
               }`}
             >
               {multiplier}x

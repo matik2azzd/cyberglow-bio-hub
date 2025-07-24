@@ -31,12 +31,13 @@ const Index = () => {
       {/* Music Player */}
       <MusicPlayer />
       
-      {/* Watermark */}
+      {/* Watermark - Crystal Clear */}
       <div className="fixed top-6 left-6 z-50">
-        <h1 className="text-2xl font-cyber font-bold neon-text animate-pulse-glow">
+        <h1 className="text-3xl font-cyber font-bold text-primary drop-shadow-2xl" 
+            style={{ textShadow: '0 0 20px hsl(var(--primary)), 0 0 40px hsl(var(--primary) / 0.5)' }}>
           BlackCode.WTF
         </h1>
-        <div className="text-xs font-mono text-muted-foreground mt-1">
+        <div className="text-sm font-mono text-secondary mt-1 font-semibold">
           v2.0.cyber_edition
         </div>
       </div>

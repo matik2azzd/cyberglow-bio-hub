@@ -19,17 +19,18 @@ interface ProfileData {
 }
 
 const ProfileCard = () => {
+  // 🔧 CUSTOMIZE YOUR PROFILE HERE 🔧
   const [profile, setProfile] = useState<ProfileData>({
-    username: "BlackCode",
-    tagline: "Cyberpunk Developer",
+    username: "BlackCode",        // ← Change your username here
+    tagline: "Neural Architect", // ← Change your tagline here  
     status: 'online',
-    avatar: "/placeholder.svg",
-    aboutMe: "Welcome to my digital realm. I craft code in the shadows of the cybernet, building the future one line at a time.",
+    avatar: "/placeholder.svg",   // ← Upload your photo to /public/ and change path here
+    aboutMe: "Welcome to my digital realm. I craft code in the shadows of the cybernet, building the future one line at a time. Specializing in neural networks, quantum algorithms, and blockchain architectures.", // ← Change your bio here
     socialLinks: [
-      { icon: Github, url: "#", label: "GitHub" },
-      { icon: Twitter, url: "#", label: "Twitter" },
-      { icon: MessageCircle, url: "#", label: "Discord" },
-      { icon: Globe, url: "#", label: "Website" }
+      { icon: Github, url: "https://github.com/yourusername", label: "GitHub" },     // ← Add your links
+      { icon: Twitter, url: "https://twitter.com/yourusername", label: "Twitter" },  // ← Add your links
+      { icon: MessageCircle, url: "https://discord.gg/yourserver", label: "Discord" }, // ← Add your links
+      { icon: Globe, url: "https://yourwebsite.com", label: "Website" }              // ← Add your links
     ]
   });
 

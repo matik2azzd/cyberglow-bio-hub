@@ -31,7 +31,7 @@ const CursorTrail = () => {
 
     const handleMouseEnter = (e: Event) => {
       const target = e.target as HTMLElement;
-      if (target.matches('button, a, [role="button"], .interactive')) {
+      if (target && typeof target.matches === 'function' && target.matches('button, a, [role="button"], .interactive')) {
         target.style.transform = 'scale(1.05)';
         target.style.transition = 'transform 0.2s ease';
       }
@@ -39,7 +39,7 @@ const CursorTrail = () => {
 
     const handleMouseLeave = (e: Event) => {
       const target = e.target as HTMLElement;
-      if (target.matches('button, a, [role="button"], .interactive')) {
+      if (target && typeof target.matches === 'function' && target.matches('button, a, [role="button"], .interactive')) {
         target.style.transform = 'scale(1)';
       }
     };
